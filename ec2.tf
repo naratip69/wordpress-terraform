@@ -17,7 +17,7 @@ resource "aws_instance" "wordpress-server" {
     Name = "midterm-wordpress-web-server"
   }
 
-  depends_on = [aws_instance.wordpress-server]
+  depends_on = [aws_instance.db-server]
 }
 
 resource "aws_instance" "db-server" {

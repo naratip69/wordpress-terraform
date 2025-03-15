@@ -1,5 +1,5 @@
 resource "aws_network_interface" "App-DB" {
-  subnet = aws_subnet.App-DB.id
+  subnet_id = aws_subnet.App-DB.id
   security_groups = [aws_security_group.private-security-group.id]
   
   tags = {
@@ -12,7 +12,7 @@ resource "aws_network_interface" "App-DB" {
 }
 
 resource "aws_network_interface" "DB-Inet" {
-  subnet = aws_subnet.DB-Inet.id
+  subnet_id = aws_subnet.DB-Inet.id
   security_groups = [aws_security_group.db-security-group.id]
   
   tags = {

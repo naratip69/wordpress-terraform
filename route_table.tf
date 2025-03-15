@@ -49,6 +49,7 @@ resource "aws_route_table" "private-route-table" {
   tags = {
     Name = "midterm-private-route-table"
   }
+  depends_on = [aws_nat.nat-gateway]
 }
 
 resource "aws_route_table_association" "a" {
