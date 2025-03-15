@@ -9,6 +9,9 @@ resource "aws_instance" "wordpress-server" {
     database_user = var.database_user
     database_pass =  var.database_pass
     db_endpoint = aws_instace.db-server.private_ip 
+    admin_user = var.admin_user
+    admin_pass = var.admin_pass
+    admin_email = var.admin_email
   })
   tags {
     Name = "midterm-wordpress-web-server"

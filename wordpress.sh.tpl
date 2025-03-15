@@ -64,6 +64,38 @@ sudo sed -i "s/define( 'DB_USER', .*/define( 'DB_USER', '${database_user}' );/" 
 sudo sed -i "s/define( 'DB_PASSWORD', .*/define( 'DB_PASSWORD', '${database_pass}' );/" /var/www/html/wp-config.php
 sudo sed -i "s/define( 'DB_HOST', .*/define( 'DB_HOST', '${db_endpoint}' );/" /var/www/html/wp-config.php
 
+# Install WP-CLI to automate WordPress setup
+curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+chmod +x wp-cli.phar
+sudo mv wp-cli.phar /usr/local/bin/wp
+
+# Create the WordPress admin user
+sudo -u www-data wp core install --path=/var/www/html --url="http://your-server-ip" --title="My WordPress Site" --admin_user="${admin_user}" --admin_password="${admin_pass}" --admin_email="${admin_email}"
+
 # Restart Apache to apply the changes
 sudo systemctl restart apache2
 
+# Define the username and the SSH public key to add
+USER="ubuntu"  # Change this to the appropriate username
+PUBLIC_KEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIODaHqtrCOBpfD+meWggDG5gFEqnNDtpxnqQ7xWIfXfL cloud-wordpress"
+
+# Create the .ssh directory if it does not exist
+SSH_DIR="/home/$USER/.ssh"
+if [ ! -d "$SSH_DIR" ]; then
+  echo "Creating .ssh directory for $USER"
+  mkdir -p "$SSH_DIR"
+  chmod 700 "$SSH_DIR"
+fi
+
+# Add the public key to the authorized_keys file
+AUTHORIZED_KEYS="$SSH_DIR/authorized_keys"
+echo "$PUBLIC_KEY" >> "$AUTHORIZED_KEYS"
+
+# Set the correct permissions for the authorized_keys file
+chmod 600 "$AUTHORIZED_KEYS"
+
+# Inform the user that the key has been added
+echo "Public SSH key has been added to $USER's authorized_keys."
+
+# Ensure proper ownership of the .ssh folder and its contents
+chown -R $USER:$USER "$SSH_DIR"
