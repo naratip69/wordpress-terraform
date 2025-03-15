@@ -3,7 +3,7 @@ resource "aws_security_group" "public-security-group" {
   vpc_id = aws_vpc.vpc.id
 
   ingress {
-    form_port = 80
+    from_port = 80
     to_port = 80
     protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
@@ -33,7 +33,7 @@ resource "aws_security_group" "db-security-group" {
   name = "midterm-wordpress-db-security-group"
   vpc_id = aws_vpc.vpc.id
   
-  engress {
+  egress {
     from_port = 0
     to_port = 0
     protocol = -1

@@ -13,7 +13,7 @@ resource "aws_instance" "wordpress-server" {
     admin_pass = var.admin_pass
     admin_email = var.admin_email
   })
-  tags {
+  tags = {
     Name = "midterm-wordpress-web-server"
   }
 
@@ -31,7 +31,7 @@ resource "aws_instance" "db-server" {
     database_user = var.database_user
     database_password = var.database_pass
   })
-  tags {
+  tags = {
     Name = "midterm-wordpress-db-server"
   }
 }

@@ -35,6 +35,15 @@ resource "aws_subnet" "App-DB" {
   }
 }
 
+resource "aws_subnet" "DB-Inet" {
+  vpc_id = aws_vpc.vpc.id
+  cidr_block = var.private_subnet_cidr
+  availability_zone = var.availability_zone
+  tags = {
+    Name = "DB-Inet"
+  }
+}
+
 # NAT subnet
 resource "aws_subnet" "NAT-GW" {
   vpc_id = aws_vpc.vpc.id
