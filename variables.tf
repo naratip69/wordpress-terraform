@@ -15,7 +15,7 @@ variable "ami" {
 
 variable "bucket_name" {
   type = string
-  default = "wordpress-s3"
+  default = "wordpress-s3-6430197521"
 }
 
 variable "database_name" {
@@ -68,6 +68,10 @@ variable "nat_subnet_cidr" {
   default = "10.0.3.0/24"
 }
 
+variable "db_subnet_cidr" {
+  type = string
+  default = "10.0.4.0/24"
+}
 variable "instance_type" {
   type = string
   default = "t2.micro"

@@ -11,3 +11,8 @@ resource "aws_eip" "app_eip" {
     Name = "midterm-app-eip"
   }
 }
+
+resource "aws_eip_association" "app_eip_assoc" {
+  instance_id = aws_instance.wordpress-server.id
+  allocation_id = aws_eip.app_eip.id
+}

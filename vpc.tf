@@ -28,7 +28,7 @@ resource "aws_subnet" "App-Inet" {
 # Private subnet
 resource "aws_subnet" "App-DB" {
   vpc_id = aws_vpc.vpc.id
-  cidr_block = var.private_subnet_cidr
+  cidr_block = var.db_subnet_cidr
   availability_zone = var.availability_zone
   tags = {
     Name = "App-DB"

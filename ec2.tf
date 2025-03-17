@@ -3,7 +3,8 @@ resource "aws_instance" "wordpress-server" {
   instance_type = var.instance_type
   availability_zone = var.availability_zone
   subnet_id = aws_subnet.App-Inet.id
-  security_groups = aws_security_group.public-security-group
+  vpc_security_group_ids = [aws_security_group.public-security-group.id]
+  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
   user_data = templatefile("./wordpress.sh.tpl", {
     database_name = var.database_name
     database_user = var.database_user
@@ -12,12 +13,15 @@ resource "aws_instance" "wordpress-server" {
     admin_user = var.admin_user
     admin_pass = var.admin_pass
     admin_email = var.admin_email
+    bucket_name = var.bucket_name
+    wordpress_endpoint = aws_eip.app_eip.public_ip
+    region = var.region
   })
   tags = {
     Name = "midterm-wordpress-web-server"
   }
 
-  depends_on = [aws_instance.db-server]
+  depends_on = [aws_instance.db-server, aws_iam_instance_profile.ec2_profile]
 }
 
 resource "aws_instance" "db-server" {
@@ -25,7 +29,8 @@ resource "aws_instance" "db-server" {
   instance_type = var.instance_type
   availability_zone = var.availability_zone
   subnet_id = aws_subnet.App-DB.id
-  security_groups = aws_security_group.private-security-group
+  vpc_security_group_ids = [aws_security_group.private-security-group.id]
+  key_name      = "activity2_cloud"
   user_data = templatefile("./database.sh.tpl", {
     database_name = var.database_name
     database_user = var.database_user
