@@ -1,6 +1,7 @@
 resource "aws_instance" "wordpress-server" {
   ami = var.ami
   instance_type = var.instance_type
+  key_name = aws_key_pair.my_key_pair.key_name
   availability_zone = var.availability_zone
   subnet_id = aws_subnet.App-Inet.id
   vpc_security_group_ids = [aws_security_group.public-security-group.id]
@@ -27,10 +28,10 @@ resource "aws_instance" "wordpress-server" {
 resource "aws_instance" "db-server" {
   ami = var.ami
   instance_type = var.instance_type
+  key_name = aws_key_pair.my_key_pair.key_name
   availability_zone = var.availability_zone
   subnet_id = aws_subnet.App-DB.id
   vpc_security_group_ids = [aws_security_group.private-security-group.id]
-  key_name      = "activity2_cloud"
   user_data = templatefile("./database.sh.tpl", {
     database_name = var.database_name
     database_user = var.database_user
